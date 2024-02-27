@@ -1,0 +1,154 @@
+body
+{
+    width: 99%;
+    background-color:#E3E2DF;
+    font-size: 0.65em;
+}
+
+header
+{
+    margin: 5px;
+    width: 96.5vw;
+    height: 20%;
+    flex-shrink: 0;
+    background: #E3AFBC;
+    border-radius: 10px;
+    border: 5px solid;
+    border-image: linear-gradient(150deg, #fa69698d, #e9030300) 0.6;
+}
+
+h1
+{
+    margin: 20px;
+    color: #5D001E;
+    text-transform: uppercase;
+    text-decoration: underline #2E0000 double 2px;
+    letter-spacing: 3px;
+    text-shadow: 1px 1px 3px;
+    font-style: italic;
+}
+
+section
+{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: justify;
+}
+
+section.students
+{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+div.team-info, div.students
+{
+    padding: 10px;
+    margin: 1vw;
+    box-shadow: 10px 0 15px #2e000023;
+    border-radius: 3px;
+}
+
+div.students
+{
+    width: 90%;
+}
+
+a:link, a:visited
+{
+    background-color: inherit;
+    color: black;
+    text-decoration-line: none;
+}
+
+a:hover, a:active
+{
+    background-color: #5D001E;
+    color: #E3AFBC;;
+}
+
+img
+{
+    width:50%
+}
+
+/*планшетна версія */
+@media screen and (min-width: 767px) {
+
+    body
+    {
+        width: 99%;
+        font-size: 0.8em;
+    }
+
+    header
+    {
+        margin: 10px;
+        width: 96%;
+        height: 18%;
+        flex-shrink: 0;
+        border-radius: 10px;
+        border: 7px solid;
+        border-image: linear-gradient(150deg, #fa69698d, #e9030300) 0.6;
+    }
+
+    h1
+    {
+        letter-spacing: 2px;
+    }
+
+    div
+    {
+        padding: 5px;
+        margin: 1vw;
+        border-radius: 3px;
+    }
+    div.students
+    {
+        width: 40%;
+    }
+
+    img
+    {
+        width:40%
+    }
+}
+
+/*Десктопна версія*/
+@media screen and (min-width: 1024px) {
+
+    body
+    {
+        width: 99%;
+        font-size: 1em;
+    }
+
+    header
+    {
+        height: 20%;
+        border: 8px solid;
+        border-image: linear-gradient(150deg, #fa69698d, #e9030300) 0.6;
+    }
+
+    h1
+    {
+        letter-spacing: 3px;
+    }
+
+    div
+    {
+        padding: 10px;
+        margin: 1vw;
+        border-radius: 3px;
+    }
+
+    div.students
+    {
+        width: 45%;
+    }
+    img
+    {
+        width:50%
+    }
+
+}

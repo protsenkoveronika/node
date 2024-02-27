@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ukr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel = 'stylesheet' href="/styles/style.css" type="text/css"/>
+</head>
+<body>
+    <header>
+        <h1>Інформація про студентів</h1>
+    </header>
+    
+    <section class="students">
+        <% students.forEach((student) => { %>
+            <div class="students">
+                <p>ПІБ: <%= student.name %></p>
+                <p>Група: <%= student.group %></p>
+                <p>Роль: <%= student.role %></p>
+                <p>Фото:</p>
+                <img src="<%= student.photo %>" alt="Team Member">
+                <p>Контакт: <%- student.username %></p>
+            </div>
+        <% }); %>
+    </section>
+</body>
+</html>
