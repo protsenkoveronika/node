@@ -10,6 +10,10 @@ var newsRouter = require('./routes/news.js')
 
 var app = express();
 
+// serve static files from the 'public' directory and Bootstrap from the node_modules
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

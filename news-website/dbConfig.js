@@ -1,4 +1,4 @@
-var mysql = require('mysql2');
+/*var mysql = require('mysql2');
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -60,4 +60,4 @@ testDataNews.forEach(data => {
   });
 });
 
-module.exports = connection;
+module.exports = connection;*/
