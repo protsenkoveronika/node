@@ -1,13 +1,26 @@
 const express = require("express");
 const router = express.Router();
 router.use(express.json());
-var newsController = require('../controllers/newsController.js'); 
+var newsController = require('../controllers/newsController.js');
 
-//get news
+
+//get all news
 router.get('/', async (req, res, next) => {
   try {
     const result = await newsController.readAllNews();
+    res.render('news', { title: 'all', news: result });
     res.status(201).json({ message: 'News read successfully'});
+  } catch (err) {
+    next(err);
+  }
+});
+
+// get news by category
+router.get('/:name', async (req, res, next) => {
+  const categoryId = req.params.name;
+  try {
+    const result = await newsController.readNewsById(categoryId);
+    res.status(201).json({ message: 'News by category read successfully', categoryId});
   } catch (err) {
     next(err);
   }

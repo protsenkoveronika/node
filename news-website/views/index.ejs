@@ -10,8 +10,15 @@
   <body>
     <%- include('header') %>
     <main>
-      <h1><%= title %></h1>
-      <p>Welcome to <%= title %></p>
+      <h1>Welcome to <%= title %></h1>
+      <p>Check our news categories</p>
+      <div class="categories">
+        <a href="/news" class="category">See all</a>
+<!--        <////% categories.forEach(function(category) { %>-->
+<!--          <a href="/news/<//%= category.name %>" class="category"><//%= category.name %></a>-->
+<!--        <////% }); %>-->
+      </div>
+      <!--  за умови що ти адміністратор сайту тут буде кнопка додати категорію   -->
     </main>
 
     <%- include('footer') %>

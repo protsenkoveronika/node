@@ -18,6 +18,15 @@ exports.createNews = async (newsData) => {
   }
 };
 
+// exports.readAllNews = async () => {
+//   try {
+//     const [readResult] = await connection.promise().query('SELECT * FROM news');
+//     return readResult;
+//   } catch (err) {
+//     throw err;
+//   }
+// };
+
 exports.readAllNews = async () => {
   try {
     await connection.promise().beginTransaction();
@@ -30,9 +39,27 @@ exports.readAllNews = async () => {
 
   } catch (err) {
     await connection.promise().rollback();
+    console.error("Error fetching news:", err);
     throw err;
   }
 };
+
+exports.readNewsByCategory = async (categoryId) => {
+  try {
+    await connection.promise().beginTransaction();
+
+    const [readResult] = await connection.promise().query('SELECT * FROM news WHERE category = ?', [categoryId]);
+
+    await connection.promise().commit();
+
+    return readResult[0];
+
+  } catch (err) {
+    await connection.promise().rollback();
+    throw err;
+  }
+};
+
 
 exports.readNewsById = async (newsId) => {
   try {

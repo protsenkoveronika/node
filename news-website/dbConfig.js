@@ -1,4 +1,4 @@
-/*var mysql = require('mysql2');
+var mysql = require('mysql2');
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -7,6 +7,21 @@ const connection = mysql.createConnection({
   password: 'root_root1991',
   database: 'news_website'
 });
+
+/*// Create the connection pool
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'your_username',
+  password: 'your_password',
+  database: 'your_database',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
+
+// Export the pool
+module.exports = pool.promise();*/
+
 
 connection.connect((err) => {
   if (err) {
@@ -60,4 +75,4 @@ testDataNews.forEach(data => {
   });
 });
 
-module.exports = connection;*/
+module.exports = connection;
