@@ -6,7 +6,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var newsRouter = require('./routes/news.js')
+var newsRouter = require('./routes/news');
+var categoriesRouter = require('./routes/categories');
 
 var app = express();
 
@@ -27,6 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/news', newsRouter);
+app.use('/categories', categoriesRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -47,9 +50,9 @@ app.use(function(err, req, res, next) {
 module.exports = app;
 
 // setting up a connection and working with test data
-
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+port = 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port 3000: http://localhost:${port}/`);
 });
 
 // { "title": "Новое название новости", "content": "Новое содержание новости", "authorId": 1}

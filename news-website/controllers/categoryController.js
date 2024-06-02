@@ -9,7 +9,7 @@ exports.createCategory = async (name, description) => {
         const createdCategoryId = createResult.insertId;
 
         await connection.promise().commit();
-
+        
         return createdCategoryId;
     } catch (err) {
         await connection.promise().rollback();
@@ -24,7 +24,7 @@ exports.getAllCategories = async () => {
         const [readResult] = await connection.promise().query('SELECT * FROM categories');
 
         await connection.promise().commit();
-
+        
         return readResult;
 
     } catch (err) {

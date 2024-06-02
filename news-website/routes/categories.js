@@ -4,10 +4,30 @@ router.use(express.json());
 var categoryController = require('../controllers/categoryController.js');
 
 // Get all categories
+// router.get('/', async (req, res, next) => {
+//     try {
+//         const result = await categoryController.getAllCategories();
+//         console.log('here')
+//         res.render('news',{categories: result});
+//         return res;
+//     } catch (err) {
+//         next(err);
+//     }
+// });
+
+// router.get('/', async (req, res, next) => {
+//     try {
+//         const result = await categoryController.getAllCategories();
+//         res.render('news', {title: 'Categories', categories: result });
+//     } catch (err) {
+//         next(err);
+//     }
+// });
+
 router.get('/', async (req, res, next) => {
     try {
-        const categories = await categoryController.getAllCategories();
-        res.status(200).json(categories);
+        const result = await categoryController.getAllCategories();
+        res.render('categories', {title: 'Categories', categories: result });
     } catch (err) {
         next(err);
     }
@@ -18,7 +38,9 @@ router.get('/:id', async (req, res, next) => {
     const categoryId = req.params.id;
     try {
         const category = await categoryController.getCategoryById(categoryId);
-        res.status(200).json(category);
+        // res.status(200).json(category);
+        // res.render('categories', {title: 'Categories', categories: result });
+        res.render('category', { title: `Category: ${category.title}`, category });
     } catch (err) {
         next(err);
     }

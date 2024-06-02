@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/header.css' />
+    <link rel='stylesheet' href='/stylesheets/footer.css' />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" >
+</head>
+<body>
+<%- include('header') %>
+
+    <main>
+        <h1><%= title %></h1>
+        <p  class="main-text">Check our news categories</p>
+        <div class="categories">
+        <% categories.forEach(function(category) { %>
+            <a href="/categories/<%= category.id %>" class="category"><%= category.title %></a>
+        <% }); %>
+        </div>
+        <!--  за умови що ти адміністратор сайту тут буде кнопка додати категорію   -->
+    </main>
+
+<%- include('footer') %>
+</body>
+</html>

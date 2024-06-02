@@ -16,22 +16,24 @@ router.get('/', async (req, res, next) => {
 });
 
 // get news by category
-router.get('/:name', async (req, res, next) => {
-  const categoryId = req.params.name;
+router.get('/:title', async (req, res, next) => {
+  const categoryName = req.params.title;
   try {
-    const result = await newsController.readNewsById(categoryId);
-    res.status(201).json({ message: 'News by category read successfully', categoryId});
+    const result = await newsController.readNewsByCategory(categoryName);
+    res.render('news', { title: categoryName, news: Array.isArray(result) ? result : [result], isSingleNews: false });
   } catch (err) {
     next(err);
   }
 });
 
-// get news by id
-router.get('/:id', async (req, res, next) => {
+
+// get news by id 
+router.get('/:title/:id', async (req, res, next) => {
   const newsId = req.params.id;
   try {
     const result = await newsController.readNewsById(newsId);
-    res.status(201).json({ message: 'News read successfully', newsId});
+    
+    res.render('news', { title: `News ${newsId}`, news: Array.isArray(result) ? result : [result], isSingleNews: true });
   } catch (err) {
     next(err);
   }

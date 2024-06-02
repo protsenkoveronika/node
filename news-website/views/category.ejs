@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/header.css' />
+  <link rel='stylesheet' href='/stylesheets/footer.css' />
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" >
+</head>
+<body>
+  <%- include('header') %>
+  <main>
+    <h1><%= category.title %></h1>
+    <p  class="main-text"><%= category.category_description %></p>
+    <a href="/news/<%= category.title %>" class="category">See news in this category</a>
+  </main>
+  <%- include('footer') %>
+</body>
+</html>

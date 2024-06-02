@@ -44,15 +44,14 @@ exports.readAllNews = async () => {
   }
 };
 
-exports.readNewsByCategory = async (categoryId) => {
+exports.readNewsByCategory = async (categoryName) => {
   try {
     await connection.promise().beginTransaction();
 
-    const [readResult] = await connection.promise().query('SELECT * FROM news WHERE category = ?', [categoryId]);
-
+    const [readResult] = await connection.promise().query('SELECT news.id, news.title, news.content, news.author_id, news.created_at, news.updated_at FROM news JOIN categories ON news.category_id = categories.id  WHERE categories.title =?', [categoryName]);
     await connection.promise().commit();
 
-    return readResult[0];
+    return readResult.length > 0 ? readResult : [];  // Return an empty array if no results
 
   } catch (err) {
     await connection.promise().rollback();
@@ -65,8 +64,10 @@ exports.readNewsById = async (newsId) => {
   try {
     await connection.promise().beginTransaction();
 
-    const [readResult] = await connection.promise().query('SELECT * FROM news WHERE id = ?', [newsId]);
-
+    // const [readResult] = await connection.promise().query('SELECT * FROM news WHERE id = ?', [newsId]);
+    // const [readResult] = await connection.promise().query('SELECT news.id, news.title, news.content, news.author_id, news.created_at, news.updated_at, users.username FROM news  JOIN users ON users.id = news.author_id WHERE news.id = ?', [newsId]);
+    const [readResult] = await connection.promise().query('SELECT * FROM news  JOIN users ON users.id = news.author_id WHERE news.id = ?', [newsId]);
+    
     await connection.promise().commit();
 
     return readResult[0];
