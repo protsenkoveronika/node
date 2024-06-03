@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 router.use(express.json());
-var newsController = require('../controllers/userController.js');
+const newsController = require('../controllers/userController.js');
 
 //get users
 router.get('/', async (req, res, next) => {
