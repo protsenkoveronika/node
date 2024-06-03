@@ -12,13 +12,13 @@
 
     <main>
         <h1><%= title %></h1>
-        <p  class="main-text">Check our news categories</p>
+        <p class="main-text">Check our news categories</p>
         <div class="categories">
-        <% categories.forEach(function(category) { %>
-            <a href="/categories/<%= category.id %>" class="category"><%= category.title %></a>
-        <% }); %>
+            <a href="/categories/all" class="category">All news</a>
+            <% categories.forEach(function(category) { %>
+                <a href="/categories/<%= category.id %>" class="category"><%= category.title %></a>
+            <% }); %>
         </div>
-        <!--  за умови що ти адміністратор сайту тут буде кнопка додати категорію   -->
     </main>
 
 <%- include('footer') %>

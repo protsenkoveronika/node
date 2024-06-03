@@ -38,6 +38,22 @@ exports.getCategoryById = async (categoryId) => {
         await connection.promise().beginTransaction();
 
         const [readResult] = await connection.promise().query('SELECT * FROM categories WHERE id = ?', [categoryId]);
+        console.log("Query result:", readResult);
+        await connection.promise().commit();
+
+        return readResult[0];
+
+    } catch (err) {
+        await connection.promise().rollback();
+        throw err;
+    }
+};
+
+exports.getCategoryByTitle = async (categoryTitle) => {
+    try {
+        await connection.promise().beginTransaction();
+
+        const [readResult] = await connection.promise().query('SELECT * FROM categories WHERE title = ?', [categoryTitle]);
 
         await connection.promise().commit();
 

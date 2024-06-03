@@ -46,6 +46,19 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+// Get category by title
+router.get('/:title', async (req, res, next) => {
+    const categoryTitle = req.params.title;
+    try {
+        const category = await categoryController.getCategoryByTitle(categoryTitle);
+        // res.status(200).json(category);
+        // res.render('categories', {title: 'Categories', categories: result });
+        res.render('category', { title: `Category: ${category.title}`, category });
+    } catch (err) {
+        next(err);
+    }
+});
+
 // Create a new category
 router.post('/', async (req, res, next) => {
     const { name, description } = req.body;

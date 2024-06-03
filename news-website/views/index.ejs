@@ -13,12 +13,8 @@
       <h1>Welcome to <%= title %></h1>
       <p class="main-text">Check our news categories</p>
       <div class="categories">
-        <a href="/categories" class="category">See all</a>
-          <//% categories.forEach(function(category) { %>
-            <a href="/news/<//%= category.name %>" class="category"><//%= category.name %></a>
-          <//% }); %>
+        <a href="/categories" class="category">Categories</a>
       </div>
-      <!--  за умови що ти адміністратор сайту тут буде кнопка додати категорію   -->
     </main>
 
     <%- include('footer') %>

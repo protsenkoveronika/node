@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Page</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/header.css' />
+    <link rel='stylesheet' href='/stylesheets/footer.css' />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" >
+</head>
+<body>
+<%- include('header') %>
+
+    <main>
+        <div class="row">
+            <div class="col">
+                <h2>Welcome to Admin Page!</h2>
+            </div>
+            <div class="col links">
+                <a href="/admin/users">Users</a>
+                <a href="/admin/categories">Categories</a>
+                <a href="/admin/news">News</a>
+            </div>
+        </div>
+        <div class="comp">
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col">
+                        <h3>Categories</h3>
+                    </div>
+                    <div class="col links">
+                        <a href="/add/user" class="btn btn-dark" style="color: white; font-size: medium">Add new</a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% categories.forEach(category => { %>
+                            <tr>
+                                <td><%= category.id %></td>
+                                <td><%= category.title %></td>
+                                <td><%= category.description %></td>
+                                <td style="display: flex;">
+                                    <a href="/update/user/<%= category.id %>" class="btn btn-warning btn-sm">Update</a>
+                                    <form action="/delete/user/<%= category.id %>" method="POST">
+                                        <button type="submit" class="btn btn-danger btn-sm" style="margin-left: 0.3rem">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<%- include('footer') %>
+</body>
+</html>

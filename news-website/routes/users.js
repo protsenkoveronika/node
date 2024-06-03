@@ -1,24 +1,13 @@
-// var express = require('express');
-// var router = express.Router();
-
-// /* GET users listing. */
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
-
-// module.exports = router;
-
-
 const express = require("express");
 const router = express.Router();
 router.use(express.json());
 var newsController = require('../controllers/userController.js');
 
-//get user
+//get users
 router.get('/', async (req, res, next) => {
   try {
     const result = await newsController.readAllUsers();
-    res.status(201).json({ message: 'User information read successfully'});
+    res.render('adminUsers', { users: result });
   } catch (err) {
     next(err);
   }
