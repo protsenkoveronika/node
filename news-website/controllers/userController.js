@@ -1,5 +1,29 @@
 const connection = require('../dbConfig');
 const newsController = require('./newsController')
+//
+const { validationResult } = require('express-validator');
+
+
+exports.register = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { username, password, email } = req.body;
+
+  try {
+    const createdUserId = await db.createUser(username, password, email);
+
+    req.session.userId = createdUserId;
+    req.session.role = 'user';
+
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (err) {
+    next(err);
+  }
+};
+////
 
 exports.createUser = async (userData) => {
   try {
@@ -55,7 +79,7 @@ exports.updateUser = async (userData, userId) => {
   try {
     await connection.promise().beginTransaction();
 
-    await connection.promise().query('UPDATE users SET username = ?, email = ?, userpassword = ?, is_author = ? WHERE id = ?', [...userData, userId]);
+    await connection.promise().query('UPDATE users SET username = ?, email = ?, is_author = ? WHERE id = ?', [...userData, userId]);
 
     await connection.promise().commit();
 

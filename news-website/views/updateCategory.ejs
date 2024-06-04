@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log in</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/header.css' />
+    <link rel='stylesheet' href='/stylesheets/footer.css' />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" >
+</head>
+<body>
+<%- include('header') %>
+<main>
+    <div class="container mt-5">
+        <div class="row">
+            <h2>Update category</h2>
+        </div>
+        <div class="container mt-3">
+            <div class="col-md-6 offset-md-3">
+                <form action="/adminCategories/update/<%= category.id %>" method="POST">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" name="title" placeholder="Enter title" value="<%= category.title %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Description</label>
+                        <input type="text" class="form-control" name="description" placeholder="Enter description" value="<%= category.category_description %>">
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('footer') %>
+</body>
+</html>

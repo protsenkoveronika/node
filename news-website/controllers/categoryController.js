@@ -65,11 +65,11 @@ exports.getCategoryByTitle = async (categoryTitle) => {
     }
 };
 
-exports.updateCategory = async (categoryId, name, description) => {
+exports.updateCategory = async (categoryId, title, description) => {
     try {
         await connection.promise().beginTransaction();
 
-        await connection.promise().query('UPDATE categories SET name = ?, description = ? WHERE id = ?', [name, description, categoryId]);
+        await connection.promise().query('UPDATE categories SET title = ?, category_description = ? WHERE id = ?', [title, description, categoryId]);
 
         await connection.promise().commit();
 

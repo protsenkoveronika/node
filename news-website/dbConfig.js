@@ -68,6 +68,7 @@ const testDataCategories = [
   ['Sports', 'Sports news keeps you informed about the latest events, scores, and highlights from the world of sports. From major tournaments and championship victories to player profiles and team updates, this category covers all things sports-related.'],
   ['Science and Technology', 'It`s description to CatigoScience and Technology news brings you the latest advancements and discoveries in various fields of science and technology. This category includes updates on groundbreaking research, innovative tech products, and the impact of scientific developments on our daily lives'],
   ['Law', 'Law news provides coverage of legal issues, court cases, and changes in legislation. Stay informed about important legal decisions, judicial proceedings, and their implications for society and individual rights'],
+  ['Test', 'Law news provides coverage of legal issues, court cases, and changes in legislation. Stay informed about important legal decisions, judicial proceedings, and their implications for society and individual rights'],
 ];
 
 testDataUsers.forEach(data => {

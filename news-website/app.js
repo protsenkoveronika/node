@@ -5,10 +5,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var adminUsersRouter = require('./routes/usersAdmin');
+var adminCategoriesRouter = require('./routes/categoriesAdmin');
+var adminNewsRouter = require('./routes/newsAdmin');
 var newsRouter = require('./routes/news');
 var categoriesRouter = require('./routes/categories');
-var adminRouter = require('./routes/admin');
 var loginRouter = require('./routes/login');
 var signupRouter = require('./routes/signup');
 
@@ -28,11 +29,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// const methodOverride = require('method-override');
+// app.use(methodOverride('delete'));
+
 app.use('/', indexRouter);
-app.use('/admin/users', usersRouter);
+app.use('/adminUsers', adminUsersRouter);
+app.use('/adminCategories', adminCategoriesRouter);
+app.use('/adminNews', adminNewsRouter);
 app.use('/news', newsRouter);
 app.use('/categories', categoriesRouter);
-app.use('/admin', adminRouter);
 app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
 

@@ -16,9 +16,9 @@
             <h2>Welcome to Admin Page!</h2>
         </div>
         <div class="col links">
-            <a href="/admin/users">Users</a>
-            <a href="/admin/categories">Categories</a>
-            <a href="/admin/news">News</a>
+            <a href="/adminUsers">Users</a>
+            <a href="/adminCategories">Categories</a>
+            <a href="/adminNews">News</a>
         </div>
     </div>
     <div class="comp">
@@ -52,8 +52,8 @@
                             <td><%= news.author_id %></td>
                             <td><%= news.category_id %></td>
                             <td style="display: flex;">
-                                <a href="/update/user/<%= news.id %>" class="btn btn-warning btn-sm">Update</a>
-                                <form action="/delete/user/<%= news.id %>" method="POST">
+                                <a href="/adminNews/updatePage/<%= news.id %>" class="btn btn-warning btn-sm">Update</a>
+                                <form action="/adminNews/delete/<%= news.id %>" method="POST">
                                     <button type="submit" class="btn btn-danger btn-sm" style="margin-left: 0.3rem">Delete</button>
                                 </form>
                             </td>

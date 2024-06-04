@@ -63,9 +63,6 @@ exports.readNewsByCategory = async (categoryName) => {
 exports.readNewsById = async (newsId) => {
   try {
     await connection.promise().beginTransaction();
-
-    // const [readResult] = await connection.promise().query('SELECT * FROM news WHERE id = ?', [newsId]);
-    // const [readResult] = await connection.promise().query('SELECT news.id, news.title, news.content, news.author_id, news.created_at, news.updated_at, users.username FROM news  JOIN users ON users.id = news.author_id WHERE news.id = ?', [newsId]);
     const [readResult] = await connection.promise().query('SELECT * FROM news  JOIN users ON users.id = news.author_id WHERE news.id = ?', [newsId]);
     
     await connection.promise().commit();
@@ -82,7 +79,7 @@ exports.updateNews = async (newsData, newsId) => {
   try {
     await connection.promise().beginTransaction();
 
-    await connection.promise().query('UPDATE news SET title = ?, content = ?, author_id = ? WHERE id = ?', [...newsData, newsId]);
+    await connection.promise().query('UPDATE news SET title = ?, content = ?, author_id = ?, category_id = ? WHERE id = ?', [...newsData, newsId]);
 
     await connection.promise().commit();
 
