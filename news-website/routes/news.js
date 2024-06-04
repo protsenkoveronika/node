@@ -27,12 +27,12 @@ router.get('/:title', async (req, res, next) => {
 });
 
 
-// get news by id 
-router.get('/:id', async (req, res, next) => {
+// get news by id
+router.get('/read/:id', async (req, res, next) => {
   const newsId = req.params.id;
   try {
     const result = await newsController.readNewsById(newsId);
-    res.render('readNews', { news: result} );
+    res.render('readNews', { news: result });
   } catch (err) {
     next(err);
   }
