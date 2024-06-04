@@ -1,44 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= title %></title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
-  <link rel='stylesheet' href='/stylesheets/header.css' />
-  <link rel='stylesheet' href='/stylesheets/footer.css' />
-  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" >
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/header.css' />
+    <link rel='stylesheet' href='/stylesheets/footer.css' />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" >
 </head>
 <body>
-  <%- include('header') %>
-  <main>
-    <% if (isSingleNews) { %>
-      <h1><%= news[0].title %></h1>
-      <p class="main-text"><%= news[0].content %></p>
-      <!-- <p class="main-text">Author ID: <%= news[0].author_id %></p> -->
-      <p class="main-text">Author: <%= news[0].username %></p>
-      <% 
-      const createdAt = new Date(news[0].created_at);
-      const updatedAt = new Date(news[0].updated_at);
-      %>
-      <p class="main-text">Created at: <%= createdAt.getFullYear() %>-<%= (createdAt.getMonth() + 1).toString().padStart(2, '0') %>-<%= createdAt.getDate().toString().padStart(2, '0') %> <%= createdAt.getHours().toString().padStart(2, '0') %>:<%= createdAt.getMinutes().toString().padStart(2, '0') %>:<%= createdAt.getSeconds().toString().padStart(2, '0') %></p>
-      <p class="main-text">Updated at: <%= updatedAt.getFullYear() %>-<%= (updatedAt.getMonth() + 1).toString().padStart(2, '0') %>-<%= updatedAt.getDate().toString().padStart(2, '0') %> <%= updatedAt.getHours().toString().padStart(2, '0') %>:<%= updatedAt.getMinutes().toString().padStart(2, '0') %>:<%= updatedAt.getSeconds().toString().padStart(2, '0') %></p>
-    <% }else { %>
-      <h1>News in category <%= title %></h1>
-      <div class="news">
-          <% if (Array.isArray(news) && news.length > 0) { %>
-          <% news.forEach(function(News) { %>
-              <a href="/news/<%=title %>/<%= News.id %>" class="news-item"><%= News.title %></a>
-          <% }); %>
-          <% } else { %>
-              <p class="main-text">No news available in this category.</p>
-      <% } %>
-    <% }%>
-    
+<%- include('header') %>
+<main class="container my-4">
+    <h1 class="mb-4"><%= title %> News</h1>
+    <div class="row">
+        <% news.forEach(news => { %>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= news.title %></h5>
+                        <p class="card-text"><%= news.content %></p>
+                        <a href="/news/<%= news.id %>" class="btn btn-primary">Read</a>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
     </div>
-    <!--  за умови що ти адміністратор сайту тут буде кнопка додати категорію   -->
 </main>
 
 <%- include('footer') %>
 </body>
 </html>
-
 

@@ -46,7 +46,7 @@
                             <tr>
                                 <td><%= category.id %></td>
                                 <td><%= category.title %></td>
-                                <td><%= category.description %></td>
+                                <td><%= category.category_description %></td>
                                 <td style="display: flex;">
                                     <a href="/adminCategories/updatePage/<%= category.id %>" class="btn btn-warning btn-sm">Update</a>
                                     <form action="/adminCategories/delete/<%= category.id %>" method="POST">
