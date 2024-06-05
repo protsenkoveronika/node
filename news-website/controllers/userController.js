@@ -10,19 +10,33 @@ exports.registerUser = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { username, password, email } = req.body;
+  const { username, email, password } = req.body;
 
   try {
-    const createdUserId = await connection.createUser(username, password, email);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    req.session.userId = createdUserId;
-    req.session.role = 'user';
+    const [createResult] = await connection.promise().query('INSERT INTO users (username, email, userpassword, is_author) VALUES (?, ?, ?, ?)', [username, email, hashedPassword, '0']);
 
-    res.status(201).json({ message: 'User registered successfully' });
+    const createdUserId = createResult.insertId;
+
+    req.session.user = {
+      id: createdUserId,
+      username: username,
+      email: email,
+      is_author: '0'
+    };
+    // console.log('User registered successfully with is_author:', req.session.user.is_author);
+    // if (req.session.user.is_author == '0') {
+    //   res.redirect('/');
+    // } else {
+    //   res.redirect('/adminUsers');
+    // }
+    res.redirect('/login');
   } catch (err) {
     next(err);
   }
 };
+
 ////
 
 exports.createUser = async (userData) => {

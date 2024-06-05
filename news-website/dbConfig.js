@@ -96,6 +96,23 @@ testDataUsers.forEach(async data => {
   });
 });
 
+exports.createUser = async (userData) => {
+  try {
+    const [createResult] = await connection.promise().query('INSERT INTO users (username, email, userpassword, is_author) VALUES (?, ?, ?, ?)', userData);
+
+    const createdUserId = createResult.insertId;
+
+    return {
+      id: createdUserId,
+      username: userData[0],
+      email: userData[1],
+      is_author: userData[3]
+    };
+  } catch (err) {
+    throw err;
+  }
+};
+
 testDataNews.forEach(data => {
   const [title, content, author_id, category_id] = data;
   connection.query('SELECT * FROM news WHERE title = ?', [title], (err, rows) => {
