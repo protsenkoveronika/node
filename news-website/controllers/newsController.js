@@ -4,7 +4,7 @@ exports.createNews = async (newsData) => {
   try {
     await connection.promise().beginTransaction();
 
-    const [createResult] = await connection.promise().query('INSERT INTO news (title, content, author_id) VALUES (?, ?, ?)', newsData);
+    const [createResult] = await connection.promise().query('INSERT INTO news (title, content, author_id, category_id) VALUES (?, ?, ?, ?)', newsData);
 
     const createdNewsId = createResult.insertId;
 

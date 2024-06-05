@@ -79,7 +79,7 @@ exports.updateUser = async (userData, userId) => {
   try {
     await connection.promise().beginTransaction();
 
-    await connection.promise().query('UPDATE users SET username = ?, email = ?, is_author = ? WHERE id = ?', [...userData, userId]);
+    await connection.promise().query('UPDATE users SET username = ?, email = ?, userpassword = ?, is_author = ? WHERE id = ?', [...userData, userId]);
 
     await connection.promise().commit();
 

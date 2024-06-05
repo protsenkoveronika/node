@@ -24,17 +24,30 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-//create user
-router.post('/create', async (req, res, next) => {
-  const { username, email, userpassword, is_author} = req.body;
+router.get('/createPage/add', async (req, res, next) => {
   try {
-    const userData = [username, email, userpassword, is_author];
-    const result = await userController.createUser(userData);
-    res.status(201).json({ message: 'User created successfully', userid: result.createdUserId });
+    res.render('createUser');
   } catch (err) {
     next(err);
   }
 });
+
+//create user
+router.post('/create', async (req, res, next) => {
+  const { username, email, userpassword, is_author } = req.body;
+  try {
+    if (!username || !email || !userpassword || is_author === undefined) {
+      throw new Error('All fields must be filled');
+    }
+
+    const userData = [username, email, userpassword, is_author];
+    await userController.createUser(userData);
+    res.redirect('/adminUsers');
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 router.get('/updatePage/:id', async (req, res, next) => {
   const userId = req.params.id;
@@ -49,12 +62,14 @@ router.get('/updatePage/:id', async (req, res, next) => {
 // update user
 router.post('/update/:id', async (req, res, next) => {
   const userid  = req.params.id;
-  const { username, email, is_author} = req.body;
+  const { username, email, userpassword, is_author} = req.body;
   try {
-    const userData = [username, email, is_author];
+    if (!username || !email || !userpassword || !is_author) {
+      throw new Error('All fields must be filled');
+    }
+    const userData = [username, email, userpassword, is_author];
     await userController.updateUser(userData, userid);
-    const result = await userController.readAllUsers();
-    res.render('adminUsers', { users: result });
+    res.redirect('/adminUsers');
   } catch (err) {
     next(err);
   }
@@ -80,8 +95,7 @@ router.post('/delete/:id', async (req, res, next) => {
   try {
     await userController.deleteUser(userid);
     const result = await userController.readAllUsers();
-    res.render('adminUsers', { users: result });
-    res.json({ message: 'User deleted successfully', userid});
+    res.redirect('/adminUsers');
   } catch (err) {
     next(err);
   }

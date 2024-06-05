@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Log in</title>
+    <title>Create User</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/header.css' />
     <link rel='stylesheet' href='/stylesheets/footer.css' />
@@ -12,26 +12,26 @@
 <main>
     <div class="container mt-5">
         <div class="row">
-            <h2>Update user</h2>
+            <h2>Create User</h2>
         </div>
         <div class="container mt-3">
             <div class="col-md-6 offset-md-3">
-                <form action="/adminUsers/update/<%= user.id %>" method="POST">
+                <form action="/adminUsers/create" method="POST" onsubmit="return validateForm()">
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" name="username" placeholder="Enter username" value="<%= user.username %>">
+                        <input type="text" class="form-control" name="username" placeholder="Enter username" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" placeholder="Enter email" value="<%= user.email %>">
+                        <input type="email" class="form-control" name="email" placeholder="Enter email" required>
                     </div>
                     <div class="form-group">
                         <label for="userpassword">Password</label>
-                        <input type="password" class="form-control" name="userpassword" placeholder="Enter password" value="<%= user.userpassword %>">
+                        <input type="password" class="form-control" name="userpassword" placeholder="Enter password" required>
                     </div>
                     <div class="form-group">
                         <label for="is_author">Is Author</label>
-                        <input type="number" class="form-control" name="is_author" placeholder="1 or 0" value="<%= user.is_author %>">
+                        <input type="number" class="form-control" name="is_author" placeholder="1 or 0" required>
                     </div>
                     <button type="submit" class="btn btn-success">Submit</button>
                 </form>
@@ -41,15 +41,14 @@
 </main>
 
 <%- include('footer') %>
-
 <script>
     function validateForm() {
         const username = document.forms[0]["username"].value;
         const email = document.forms[0]["email"].value;
-        const userpassword = document.forms[0]["userpassword"].value;
+        const password = document.forms[0]["userpassword"].value;
         const isAuthor = document.forms[0]["is_author"].value;
 
-        if (!username || !email || !userpassword || !isAuthor) {
+        if (!username || !email || !password || !isAuthor) {
             alert("All fields must be filled out");
             return false;
         }

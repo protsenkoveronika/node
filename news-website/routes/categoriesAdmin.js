@@ -38,25 +38,37 @@ router.get('/updatePage/:id', async (req, res, next) => {
     }
 });
 
-// Create a new category
-router.post('/', async (req, res, next) => {
-    const { name, description } = req.body;
+
+router.get('/createPage/add', async (req, res, next) => {
     try {
-        const newCategory = await categoryController.createCategory(name, description);
-        res.status(201).json(newCategory);
+        res.render('createCategory');
     } catch (err) {
         next(err);
     }
 });
 
+router.post('/create', async (req, res, next) => {
+    const { title, description } = req.body;
+    try {
+        if (!title || !description) {
+            throw new Error('All fields must be filled');
+        }
+        const newCategory = await categoryController.createCategory(title, description);
+        res.redirect('/adminCategories');
+    } catch (err) {
+        next(err);
+    }
+});
 // Update a category
 router.post('/update/:id', async (req, res, next) => {
     const categoryId = req.params.id;
     const { title, description } = req.body;
     try {
+        if (!title || !description) {
+            throw new Error('All fields must be filled');
+        }
         const updatedCategory = await categoryController.updateCategory(categoryId, title, description);
-        const result = await categoryController.getAllCategories();
-        res.render('adminCategories', { categories: result });
+        res.redirect('/adminCategories');
     } catch (err) {
         next(err);
     }
@@ -67,9 +79,7 @@ router.post('/delete/:id', async (req, res, next) => {
     const id  = req.params.id;
     try {
         await categoryController.deleteCategory(id);
-        const result = await categoryController.getAllCategories();
-        res.render('adminCategories', { categories: result });
-        res.json({ message: 'Category deleted successfully', id});
+        res.redirect('/adminCategories');
     } catch (err) {
         next(err);
     }

@@ -1,10 +1,10 @@
 const connection = require('../dbConfig');
 
-exports.createCategory = async (name, description) => {
+exports.createCategory = async (title, description) => {
     try {
         await connection.promise().beginTransaction();
 
-        const [createResult] = await connection.promise().query('INSERT INTO categories (name, description) VALUES (?, ?)', [name, description]);
+        const [createResult] = await connection.promise().query('INSERT INTO categories (title, category_description) VALUES (?, ?)', [title, description]);
 
         const createdCategoryId = createResult.insertId;
 
