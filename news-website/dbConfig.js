@@ -1,11 +1,15 @@
 var mysql = require('mysql2');
+const bcrypt = require('bcrypt');
 
 const connection = mysql.createConnection({
   host: 'localhost',
   port: 3306,
   user: 'root',
   password: 'root_root1991',
-  database: 'news_website'
+  database: 'news_website',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
 /*// Create the connection pool
@@ -71,12 +75,18 @@ const testDataCategories = [
   ['Test', 'Law news provides coverage of legal issues, court cases, and changes in legislation. Stay informed about important legal decisions, judicial proceedings, and their implications for society and individual rights'],
 ];
 
-testDataUsers.forEach(data => {
-  const [username, email, userpassword] = data;
+const hashPassword = async (password) => {
+  const saltRounds = 10;
+  return await bcrypt.hash(password, saltRounds);
+};
+
+testDataUsers.forEach(async data => {
+  const [username, email, userpassword, is_author] = data;
+  const hashedPassword = await hashPassword(userpassword); // хешируем пароль
   connection.query('SELECT * FROM users WHERE email = ?', [email], (err, rows) => {
     if (err) throw err;
     if (rows.length === 0) {
-      connection.query(insertQueryForUsers, data, (err, result) => {
+      connection.query(insertQueryForUsers, [username, email, hashedPassword, is_author], (err, result) => {
         if (err) throw err;
         console.log('Test data row for users inserted successfully');
       });
@@ -85,6 +95,23 @@ testDataUsers.forEach(data => {
     }
   });
 });
+
+exports.createUser = async (userData) => {
+  try {
+    const [createResult] = await connection.promise().query('INSERT INTO users (username, email, userpassword, is_author) VALUES (?, ?, ?, ?)', userData);
+
+    const createdUserId = createResult.insertId;
+
+    return {
+      id: createdUserId,
+      username: userData[0],
+      email: userData[1],
+      is_author: userData[3]
+    };
+  } catch (err) {
+    throw err;
+  }
+};
 
 testDataNews.forEach(data => {
   const [title, content, author_id, category_id] = data;

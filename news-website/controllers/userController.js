@@ -1,28 +1,42 @@
 const connection = require('../dbConfig');
 const newsController = require('./newsController')
-//
+const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 
 
-exports.register = async (req, res, next) => {
+exports.registerUser = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { username, password, email } = req.body;
+  const { username, email, password } = req.body;
 
   try {
-    const createdUserId = await db.createUser(username, password, email);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    req.session.userId = createdUserId;
-    req.session.role = 'user';
+    const [createResult] = await connection.promise().query('INSERT INTO users (username, email, userpassword, is_author) VALUES (?, ?, ?, ?)', [username, email, hashedPassword, '0']);
 
-    res.status(201).json({ message: 'User registered successfully' });
+    const createdUserId = createResult.insertId;
+
+    req.session.user = {
+      id: createdUserId,
+      username: username,
+      email: email,
+      is_author: '0'
+    };
+    // console.log('User registered successfully with is_author:', req.session.user.is_author);
+    // if (req.session.user.is_author == '0') {
+    //   res.redirect('/');
+    // } else {
+    //   res.redirect('/adminUsers');
+    // }
+    res.redirect('/login');
   } catch (err) {
     next(err);
   }
 };
+
 ////
 
 exports.createUser = async (userData) => {
@@ -135,5 +149,30 @@ exports.deleteUser = async (userId) => {
   } catch (err) {
     await connection.promise().rollback();
     throw err;
+  }
+};
+
+exports.authenticateUser = async (email, password) => {
+  console.log(`Attempting to authenticate user with email: ${email}`);
+  try {
+    const [rows] = await connection.promise().execute('SELECT * FROM users WHERE email = ?', [email]); // Исправление на правильный вызов db.execute
+    const user = rows[0];
+
+    if (!user) {
+      console.log('No user found with this email.');
+      throw new Error('Invalid email or password');
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.userpassword);
+    if (passwordMatch) {
+      console.log('Password match. User authenticated successfully.');
+      return user;
+    } else {
+      console.log('Password does not match.');
+      throw new Error('Invalid email or password');
+    }
+  } catch (err) {
+    console.log(`Authentication failed: ${err.message}`);
+    throw new Error('Database query failed');
   }
 };

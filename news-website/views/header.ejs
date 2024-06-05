@@ -5,12 +5,17 @@
             <li><a href="/">Home</a></li>
             <li><a href="/FAQ">FAQ</a></li>
             <li><a href="/Contacts">Contacts</a></li>
-            <li><a href="/logout">Log out</a></li>
-            <li>
-                <a href="/login" style="margin-right: 10px">Log in</a>
-                <a href="/signup">Sign up</a>
-            </li>
-            <li><a href="/adminUsers">Admin Page</a></li>
+            <% if (typeof user !== 'undefined' && user) { %>
+                <li><a href="/logout">Log out</a></li>
+                <% if (user.is_author) { %>
+                    <li><a href="/adminUsers">Admin Page</a></li>
+                <% } %>
+            <% } else { %>
+                <li>
+                    <a href="/login" style="margin-right: 10px">Log in</a>
+                    <a href="/signup">Sign up</a>
+                </li>
+            <% } %>
         </ul>
     </nav>
 </header>

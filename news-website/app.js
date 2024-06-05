@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var adminUsersRouter = require('./routes/usersAdmin');
@@ -12,6 +13,7 @@ var newsRouter = require('./routes/news');
 var categoriesRouter = require('./routes/categories');
 var loginRouter = require('./routes/login');
 var signupRouter = require('./routes/signup');
+var logoutRouter = require('./routes/logout');
 
 var app = express();
 
@@ -32,6 +34,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 // const methodOverride = require('method-override');
 // app.use(methodOverride('delete'));
 
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // установите true, если используете HTTPS
+}));
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/adminUsers', adminUsersRouter);
 app.use('/adminCategories', adminCategoriesRouter);
@@ -40,6 +54,8 @@ app.use('/news', newsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
+app.use('/logout', logoutRouter);
+
 
 
 // catch 404 and forward to error handler
