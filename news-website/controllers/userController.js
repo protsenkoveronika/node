@@ -1,10 +1,10 @@
 const connection = require('../dbConfig');
 const newsController = require('./newsController')
-//
+const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 
 
-exports.register = async (req, res, next) => {
+exports.registerUser = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -13,7 +13,7 @@ exports.register = async (req, res, next) => {
   const { username, password, email } = req.body;
 
   try {
-    const createdUserId = await db.createUser(username, password, email);
+    const createdUserId = await connection.createUser(username, password, email);
 
     req.session.userId = createdUserId;
     req.session.role = 'user';
@@ -135,5 +135,30 @@ exports.deleteUser = async (userId) => {
   } catch (err) {
     await connection.promise().rollback();
     throw err;
+  }
+};
+
+exports.authenticateUser = async (email, password) => {
+  console.log(`Attempting to authenticate user with email: ${email}`);
+  try {
+    const [rows] = await connection.promise().execute('SELECT * FROM users WHERE email = ?', [email]); // Исправление на правильный вызов db.execute
+    const user = rows[0];
+
+    if (!user) {
+      console.log('No user found with this email.');
+      throw new Error('Invalid email or password');
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.userpassword);
+    if (passwordMatch) {
+      console.log('Password match. User authenticated successfully.');
+      return user;
+    } else {
+      console.log('Password does not match.');
+      throw new Error('Invalid email or password');
+    }
+  } catch (err) {
+    console.log(`Authentication failed: ${err.message}`);
+    throw new Error('Database query failed');
   }
 };
