@@ -1,24 +1,9 @@
-// const express = require("express");
-// const router = express.Router();
-// router.use(express.json());
-// const userController = require('../controllers/userController.js');
-//
-// router.get('/', async (req, res, next) => {
-//     try {
-//         res.render('signup');
-//     } catch (err) {
-//         next(err);
-//     }
-// });
-//
-// module.exports = router;
-
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const { body, validationResult } = require('express-validator');
 
-router.get('/', async (req, res, next) => {
+router.get('/page', async (req, res, next) => {
     try {
         res.render('signup');
     } catch (err) {
